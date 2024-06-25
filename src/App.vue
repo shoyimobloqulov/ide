@@ -22,7 +22,7 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <button class="btn btn-primary">Yuborish</button>
+                        <button class="btn btn-primary" @click.prevent="handleSubmit">Yuborish</button>
                     </div>
                 </form>
             </div>
@@ -313,17 +313,26 @@ int main() {
                 this.theme = event.target.value;
             },
             async getLanguages() {
-                const { data } = await axios.get("https://ide.gport.uz/api/v2/runtimes");
-                console.log(data)
+                try {
+                    const response = await axios.get("https://ide.gport.uz/api/v2/runtimes",{
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    }).then(res => {
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                } catch (error) {
+                    console.error("Error fetching languages:", error);
+                }
+            },
+            async handleSubmit() {
+                console.log("Submitting:", this.code, this.theme, this.input);
             }
         },
-
         mounted() {
-            this.getLanguages()
+            this.getLanguages();
         }
     };
 </script>
-
-<style scoped>
-    /* Bu erda komponentga xos stil tushunishlari bo'ladi */
-</style>
