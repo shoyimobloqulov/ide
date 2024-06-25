@@ -312,17 +312,14 @@ int main() {
             onChangeLang(event) {
                 this.theme = event.target.value;
             },
+            async getLanguages() {
+                const { data } = await axios.get("https://ide.gport.uz/api/v2/runtimes");
+                console.log(data)
+            }
         },
 
         mounted() {
-            axios({
-                    method: 'get',
-                    url: 'https://ide.gport.uz/api/v2/runtimes',
-                    maxBodyLength: Infinity,
-                })
-                .then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                });
+            this.getLanguages()
         }
     };
 </script>
